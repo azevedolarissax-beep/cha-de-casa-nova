@@ -96,7 +96,7 @@
   <div id="conteinerPrincipal">
     <h1>Chá de Panela - Juliana e Thiago</h1>
 
-    <form id="formPresente" action="https://script.google.com/macros/s/AKfycbw6YhaYgMPyDtx4lbZWArp2kuphAwM8yRosJj5OpZz6MNe2m2ts8CenjmkyV0cW6isW/exec" method="POST">
+    <form id="formPresente">
       <p id="littleLetter">
         Olá, que maravilha que você vai poder estar conosco nesse dia tão memorável. Nós louvamos a Deus pelo que Ele tem feito e por você poder ser parte disso. Abaixo está um pequeno formulário que nos ajudará a organizar a logística desse maravilhoso evento.
       </p>
@@ -154,7 +154,8 @@
   </div>
 
   <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbw6YhaYgMPyDtx4lbZWArp2kuphAwM8yRosJj5OpZz6MNe2m2ts8CenjmkyV0cW6isW/exec";
+    // URL do seu Apps Script publicado
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxGOpZTeR4PCfKDdq-2ehClGDfrZRyNYl3dgl2IP9tDSdWHGvpP7PADLdz72boSoXdq/exec";
 
     // Carregar presentes já escolhidos da planilha
     async function carregarPresentes() {
@@ -175,25 +176,24 @@
 
     window.addEventListener("DOMContentLoaded", carregarPresentes);
 
-    // Assim que escolher, remove da lista e envia
+    // Envio do formulário
     const form = document.getElementById('formPresente');
     form.addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const select = document.getElementById('presente');
-      const index = select.selectedIndex;
-      const item = select.options[index].text;
-
-      // Remove do select imediatamente
-      select.remove(index);
-
-      // Envia o formulário normalmente para o Apps Script
       fetch(webAppUrl, {
         method: "POST",
         body: new FormData(form)
-      }).then(() => {
-        window.location.href = 'confirmado.html';
-      }).catch(err => {
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "ok") {
+          window.location.href = 'confirmado.html';
+        } else {
+          alert("Erro ao confirmar, tente novamente.");
+        }
+      })
+      .catch(err => {
         console.error("Erro ao enviar:", err);
         alert("Erro ao confirmar, tente novamente.");
       });
@@ -202,6 +202,7 @@
 
 </body>
 </html>
+
 
 
 
