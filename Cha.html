@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista Chá de Casa Nova</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 3em;
+      color: #333;
+    }
+
+    #littleLetter {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 1.2em;
+      color: #555;
+    }
+
+    body {
+      background-image: url('fundo-floral.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+      background-color: #f0f9f0;
+      font-family: Arial, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    #conteinerPrincipal {
+      background-color: rgba(255, 255, 255, 0.95);
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    input[type="text"], select {
+      width: 80%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Media query para telas pequenas (celulares) */
+    @media (max-width: 600px) {
+      #conteinerPrincipal {
+        padding: 20px;
+        margin: 20px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      input[type="text"], select {
+        width: 100%;
+        padding: 12px;
+      }
+
+      button {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="conteinerPrincipal">
+    <h1>Chá de Panela - Juliana e Thiago</h1>
+
+    <form id="formPresente" action="https://script.google.com/macros/s/AKfycbxQBdxZgVu7T698XbOnYAIWPAYQLs8c4bfFCAKKQgk6fiqYBFow8-jho0np4telCWw/exec" method="POST">
+
+      <p id="littleLetter">
+        Olá, que maravilha que você vai poder estar conosco nesse dia tão memorável. Nós louvamos a Deus pelo que Ele tem feito e por você poder ser parte disso. Abaixo está um pequeno formulário que nos ajudará a organizar a logística desse maravilhoso evento.
+      </p>
+
+      <label for="nome">Seu nome:</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <h2>Escolha um presente:</h2>
+      <select id="presente" name="presente" required>
+        <option value="">-- Selecione um item --</option>
+        <option>Cafeteira</option>
+        <option>Liquidificador</option>
+        <option>Sanduicheira</option>
+        <option>Air fryer</option>
+        <option>Bebedouro</option>
+        <option>Assadeiras</option>
+        <option>Bandeja</option>
+        <option>Tijela</option>
+        <option>Garrafa térmica</option>
+        <option>Taça para sobremesa</option>
+        <option>Prato para sobremesa</option>
+        <option>Jogo de copo</option>
+        <option>Jogo de prato</option>
+        <option>Jogo de talheres</option>
+        <option>Jogo de panela</option>
+        <option>Panela de pressão</option>
+        <option>Panos de prato</option>
+        <option>Potes de vidro</option>
+        <option>Porta mantimentos</option>
+        <option>Ralador</option>
+        <option>Afiador de facas</option>
+        <option>Forma de pudim</option>
+        <option>Cobre Leito 2</option>
+        <option>Cobre Leito 1</option>
+        <option>Lençol 1</option>
+        <option>Lençol 2</option>
+        <option>Edredom 1</option>
+        <option>Edredom 2</option>
+        <option>Fronha 1</option>
+        <option>Fronha 2</option>
+        <option>Manta para sofá 1</option>
+        <option>Manta para sofá 2</option>
+        <option>Toalhas de banho</option>
+        <option>Toalhas de mão</option>
+        <option>Tapete para Banheiro 1</option>
+        <option>Tapete para Banheiro 2</option>
+        <option>Mope</option>
+        <option>Ferro de passar</option>
+        <option>Tábua de passar</option>
+      </select>
+
+      <br><br>
+      <button type="submit">Confirmar</button>
+    </form>
+  </div>
+
+  <script>
+    // Remove os itens já escolhidos da lista
+    window.addEventListener("DOMContentLoaded", () => {
+      const select = document.getElementById("presente");
+      const removidos = JSON.parse(localStorage.getItem("itensRemovidos")) || [];
+
+      // Loop pelos itens do select e remove os itens já escolhidos
+      for (let i = select.options.length - 1; i >= 0; i--) {
+        if (removidos.includes(select.options[i].text)) {
+          select.remove(i);
+        }
+      }
+    });
+
+    // Após escolher o presente, remover da lista e salvar
+    const form = document.getElementById('formPresente');
+    form.addEventListener('submit', function(event) {
+      const select = document.getElementById('presente');
+      const index = select.selectedIndex;
+      const item = select.options[index].text;
+
+      // Salva o item removido no localStorage
+      let removidos = JSON.parse(localStorage.getItem("itensRemovidos")) || [];
+      removidos.push(item);
+      localStorage.setItem("itensRemovidos", JSON.stringify(removidos));
+
+      // Redireciona para a página de confirmação
+      setTimeout(function() {
+        window.location.href = 'confirmado.html';
+      }, 1000); // Atraso para garantir que o item foi removido
+    });
+  </script>
+
+</body>
+</html>
+
+
+
