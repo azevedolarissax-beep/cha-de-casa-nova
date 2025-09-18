@@ -154,10 +154,9 @@
   </div>
 
   <script>
-    // 🔹 URL do Web App (versão publicada como "Qualquer pessoa")
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbwfZWqh_WO5x8_tJrdJtyn4LD0uiJyg9I7SI-GjyjeC5maQIPO3FE5L-X2dFHCzqOpg/exec";
+    // 🔹 Use a URL do Web App que você publicou
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzlu3zeYdgRiOaXvEsWrY1EJkqJ1syZgkRyC-4mpAIuTqq1T42MZsf8M_1jiuhxL8rR/exec";
 
-    // Carrega presentes já escolhidos
     async function carregarPresentes() {
       const select = document.getElementById("presente");
       try {
@@ -175,7 +174,6 @@
 
     window.addEventListener("DOMContentLoaded", carregarPresentes);
 
-    // Envia confirmação
     const form = document.getElementById('formPresente');
     form.addEventListener('submit', function(event) {
       event.preventDefault();
@@ -201,6 +199,8 @@
 
 </body>
 </html>
+
+
 
 
 
