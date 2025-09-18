@@ -68,7 +68,6 @@
       background-color: #45a049;
     }
 
-    /* Media query para telas pequenas (celulares) */
     @media (max-width: 600px) {
       #conteinerPrincipal {
         padding: 20px;
@@ -97,8 +96,7 @@
   <div id="conteinerPrincipal">
     <h1>Chá de Panela - Juliana e Thiago</h1>
 
-    <form id="formPresente" action="https://script.google.com/macros/s/AKfycbxQBdxZgVu7T698XbOnYAIWPAYQLs8c4bfFCAKKQgk6fiqYBFow8-jho0np4telCWw/exec" method="POST">
-
+    <form id="formPresente" action="https://script.google.com/macros/s/AKfycbw6YhaYgMPyDtx4lbZWArp2kuphAwM8yRosJj5OpZz6MNe2m2ts8CenjmkyV0cW6isW/exec" method="POST">
       <p id="littleLetter">
         Olá, que maravilha que você vai poder estar conosco nesse dia tão memorável. Nós louvamos a Deus pelo que Ele tem feito e por você poder ser parte disso. Abaixo está um pequeno formulário que nos ajudará a organizar a logística desse maravilhoso evento.
       </p>
@@ -156,40 +154,55 @@
   </div>
 
   <script>
-    // Remove os itens já escolhidos da lista
-    window.addEventListener("DOMContentLoaded", () => {
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbw6YhaYgMPyDtx4lbZWArp2kuphAwM8yRosJj5OpZz6MNe2m2ts8CenjmkyV0cW6isW/exec";
+
+    // Carregar presentes já escolhidos da planilha
+    async function carregarPresentes() {
       const select = document.getElementById("presente");
-      const removidos = JSON.parse(localStorage.getItem("itensRemovidos")) || [];
+      try {
+        const response = await fetch(webAppUrl);
+        const escolhidos = await response.json();
 
-      // Loop pelos itens do select e remove os itens já escolhidos
-      for (let i = select.options.length - 1; i >= 0; i--) {
-        if (removidos.includes(select.options[i].text)) {
-          select.remove(i);
+        for (let i = select.options.length - 1; i >= 0; i--) {
+          if (escolhidos.includes(select.options[i].text)) {
+            select.remove(i);
+          }
         }
+      } catch (error) {
+        console.error("Erro ao carregar presentes:", error);
       }
-    });
+    }
 
-    // Após escolher o presente, remover da lista e salvar
+    window.addEventListener("DOMContentLoaded", carregarPresentes);
+
+    // Assim que escolher, remove da lista e envia
     const form = document.getElementById('formPresente');
     form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
       const select = document.getElementById('presente');
       const index = select.selectedIndex;
       const item = select.options[index].text;
 
-      // Salva o item removido no localStorage
-      let removidos = JSON.parse(localStorage.getItem("itensRemovidos")) || [];
-      removidos.push(item);
-      localStorage.setItem("itensRemovidos", JSON.stringify(removidos));
+      // Remove do select imediatamente
+      select.remove(index);
 
-      // Redireciona para a página de confirmação
-      setTimeout(function() {
+      // Envia o formulário normalmente para o Apps Script
+      fetch(webAppUrl, {
+        method: "POST",
+        body: new FormData(form)
+      }).then(() => {
         window.location.href = 'confirmado.html';
-      }, 1000); // Atraso para garantir que o item foi removido
+      }).catch(err => {
+        console.error("Erro ao enviar:", err);
+        alert("Erro ao confirmar, tente novamente.");
+      });
     });
   </script>
 
 </body>
 </html>
+
 
 
 
