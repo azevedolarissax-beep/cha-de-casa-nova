@@ -154,10 +154,9 @@
   </div>
 
   <script>
-    // URL do seu Apps Script publicado
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxGOpZTeR4PCfKDdq-2ehClGDfrZRyNYl3dgl2IP9tDSdWHGvpP7PADLdz72boSoXdq/exec";
+    // 🔹 Use aqui a NOVA URL do Web App (versão 3)
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbw6YhaYgMPyDtx4lbZWArp2kuphAwM8yRosJj5OpZz6MNe2m2ts8CenjmkyV0cW6isW/exec";
 
-    // Carregar presentes já escolhidos da planilha
     async function carregarPresentes() {
       const select = document.getElementById("presente");
       try {
@@ -176,7 +175,6 @@
 
     window.addEventListener("DOMContentLoaded", carregarPresentes);
 
-    // Envio do formulário
     const form = document.getElementById('formPresente');
     form.addEventListener('submit', function(event) {
       event.preventDefault();
@@ -202,6 +200,8 @@
 
 </body>
 </html>
+
+
 
 
 
