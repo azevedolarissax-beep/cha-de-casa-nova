@@ -154,33 +154,19 @@
   </div>
 
   <script>
-    // 🔹 Use a URL do Web App (última versão publicada)
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxGOpZTeR4PCfKDdq-2ehClGDfrZRyNYl3dgl2IP9tDSdWHGvpP7PADLdz72boSoXdq/exec";
+    // 🔹 URL do Web App (versão publicada como "Qualquer pessoa")
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwfZWqh_WO5x8_tJrdJtyn4LD0uiJyg9I7SI-GjyjeC5maQIPO3FE5L-X2dFHCzqOpg/exec";
 
-    // carregarPresentes (debug-friendly)
+    // Carrega presentes já escolhidos
     async function carregarPresentes() {
       const select = document.getElementById("presente");
       try {
-        const response = await fetch(webAppUrl, { method: 'GET' });
-        const text = await response.text();
-        console.log('GET status:', response.status);
-        console.log('GET body:', text);
-
-        let escolhidos = [];
-        try {
-          escolhidos = JSON.parse(text);
-        } catch (err) {
-          console.warn('Resposta GET não é JSON válido:', err);
-        }
-
-        if (Array.isArray(escolhidos)) {
-          for (let i = select.options.length - 1; i >= 0; i--) {
-            if (escolhidos.includes(select.options[i].text)) {
-              select.remove(i);
-            }
+        const response = await fetch(webAppUrl);
+        const escolhidos = await response.json();
+        for (let i = select.options.length - 1; i >= 0; i--) {
+          if (escolhidos.includes(select.options[i].text)) {
+            select.remove(i);
           }
-        } else {
-          console.warn('Formato inesperado de escolhidos:', escolhidos);
         }
       } catch (error) {
         console.error("Erro ao carregar presentes:", error);
@@ -189,40 +175,32 @@
 
     window.addEventListener("DOMContentLoaded", carregarPresentes);
 
-    // envio do formulário (debug-friendly)
+    // Envia confirmação
     const form = document.getElementById('formPresente');
-    form.addEventListener('submit', async function(event) {
+    form.addEventListener('submit', function(event) {
       event.preventDefault();
-      try {
-        const response = await fetch(webAppUrl, {
-          method: "POST",
-          body: new FormData(form)
-        });
 
-        const text = await response.text();
-        console.log('POST status:', response.status);
-        console.log('POST body:', text);
-
-        let data = null;
-        try { data = JSON.parse(text); } catch(e) { /* não é JSON */ }
-
-        if (data && data.status === "ok") {
+      fetch(webAppUrl, {
+        method: "POST",
+        body: new FormData(form)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "ok") {
           window.location.href = 'confirmado.html';
         } else {
-          alert("Erro ao confirmar. Resposta do servidor: " + text);
+          alert("Erro ao confirmar, tente novamente.");
         }
-
-      } catch (err) {
+      })
+      .catch(err => {
         console.error("Erro ao enviar:", err);
-        alert("Erro ao confirmar, tente novamente. Veja console (F12) para detalhes.");
-      }
+        alert("Erro ao confirmar, tente novamente.");
+      });
     });
   </script>
 
 </body>
 </html>
-
-
 
 
 
