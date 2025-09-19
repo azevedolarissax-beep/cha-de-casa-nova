@@ -107,44 +107,6 @@
       <h2>Escolha um presente:</h2>
       <select id="presente" name="presente" required>
         <option value="">-- Selecione um item --</option>
-        <option>Cafeteira</option>
-        <option>Liquidificador</option>
-        <option>Sanduicheira</option>
-        <option>Air fryer</option>
-        <option>Bebedouro</option>
-        <option>Assadeiras</option>
-        <option>Bandeja</option>
-        <option>Tijela</option>
-        <option>Garrafa térmica</option>
-        <option>Taça para sobremesa</option>
-        <option>Prato para sobremesa</option>
-        <option>Jogo de copo</option>
-        <option>Jogo de prato</option>
-        <option>Jogo de talheres</option>
-        <option>Jogo de panela</option>
-        <option>Panela de pressão</option>
-        <option>Panos de prato</option>
-        <option>Potes de vidro</option>
-        <option>Porta mantimentos</option>
-        <option>Ralador</option>
-        <option>Afiador de facas</option>
-        <option>Forma de pudim</option>
-        <option>Cobre Leito</option>
-        <option>Lençol</option>
-        <option>Edredom</option>
-        <option>Fronha</option>
-        <option>Manta para sofá</option>
-        <option>Toalhas de banho</option>
-        <option>Toalhas de mão</option>
-        <option>Tapete para Banheiro</option>
-        <option>Mope</option>
-        <option>Ferro de passar</option>
-        <option>Tábua de passar</option>
-        <option>Aspirador</option>
-        <option>Kit porta lavatório</option>
-        <option>Kit Churrasco</option>
-        <option>Garrafa de Café Preta</option>
-        <option>Microondas</option>
       </select>
 
       <br><br>
@@ -153,22 +115,39 @@
   </div>
 
   <script>
-    // 🔹 URL do Web App publicado
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzlu3zeYdgRiOaXvEsWrY1EJkqJ1syZgkRyC-4mpAIuTqq1T42MZsf8M_1jiuhxL8rR/exec";
+
+    const listaPresentes = [
+      "Cafeteira","Liquidificador","Sanduicheira","Air fryer","Bebedouro",
+      "Assadeiras","Bandeja","Tijela","Garrafa térmica","Taça para sobremesa",
+      "Prato para sobremesa","Jogo de copo","Jogo de prato","Jogo de talheres",
+      "Jogo de panela","Panela de pressão","Panos de prato","Potes de vidro",
+      "Porta mantimentos","Ralador","Afiador de facas","Forma de pudim",
+      "Cobre Leito","Lençol","Edredom","Fronha","Manta para sofá",
+      "Toalhas de banho","Toalhas de mão","Tapete para Banheiro","Mope",
+      "Ferro de passar","Tábua de passar","Aspirador","Kit porta lavatório",
+      "Kit Churrasco","Garrafa de Café Preta","Microondas"
+    ];
 
     async function carregarPresentes() {
       const select = document.getElementById("presente");
+
       try {
-        const response = await fetch(webAppUrl + "?t=" + new Date().getTime(), {
-          cache: "no-store"
-        });
+        const response = await fetch(webAppUrl + "?t=" + new Date().getTime(), { cache: "no-store" });
         const escolhidos = await response.json();
 
-        for (let i = select.options.length - 1; i >= 0; i--) {
-          if (escolhidos.includes(select.options[i].text)) {
-            select.remove(i);
+        // 🔹 Recria o select do zero
+        select.innerHTML = '<option value="">-- Selecione um item --</option>';
+
+        listaPresentes.forEach(item => {
+          if (!escolhidos.includes(item)) {
+            const opt = document.createElement("option");
+            opt.textContent = item;
+            opt.value = item;
+            select.appendChild(opt);
           }
-        }
+        });
+
       } catch (error) {
         console.error("Erro ao carregar presentes:", error);
       }
@@ -189,7 +168,7 @@
         if (data.status === "ok") {
           alert("✅ Presente confirmado com sucesso!");
           form.reset();
-          carregarPresentes(); // Atualiza a lista imediatamente
+          carregarPresentes(); // 🔹 Atualiza lista imediatamente
         } else {
           alert("Erro ao confirmar, tente novamente.");
         }
@@ -203,6 +182,8 @@
 
 </body>
 </html>
+
+
 
 
 
