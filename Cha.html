@@ -187,10 +187,9 @@
       .then(res => res.json())
       .then(data => {
         if (data.status === "ok") {
-          // Atualiza a lista imediatamente
-          carregarPresentes();
-          // Redireciona para a página de confirmação
-          window.location.href = 'confirmado.html';
+          alert("✅ Presente confirmado com sucesso!");
+          form.reset();
+          carregarPresentes(); // Atualiza a lista imediatamente
         } else {
           alert("Erro ao confirmar, tente novamente.");
         }
@@ -204,6 +203,7 @@
 
 </body>
 </html>
+
 
 
 
