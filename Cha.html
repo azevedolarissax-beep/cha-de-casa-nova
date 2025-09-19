@@ -107,50 +107,50 @@
       <h2>Escolha um presente:</h2>
       <select id="presente" name="presente" required>
         <option value="">-- Selecione um item --</option>
-        <option>Cafeteira</option>
-        <option>Liquidificador</option>
-        <option>Sanduicheira</option>
-        <option>Air fryer</option>
-        <option>Bebedouro</option>
-        <option>Assadeiras</option>
-        <option>Bandeja</option>
-        <option>Tijela</option>
-        <option>Garrafa térmica</option>
-        <option>Taça para sobremesa</option>
-        <option>Prato para sobremesa</option>
-        <option>Jogo de copo</option>
-        <option>Jogo de prato</option>
-        <option>Jogo de talheres</option>
-        <option>Jogo de panela</option>
-        <option>Panela de pressão</option>
-        <option>Panos de prato</option>
-        <option>Potes de vidro</option>
-        <option>Porta mantimentos</option>
-        <option>Ralador</option>
-        <option>Afiador de facas</option>
-        <option>Forma de pudim</option>
-        <option>Cobre Leito</option>
-        <option>Cobre Leito</option>
-        <option>Lençol</option>
-        <option>Lençol</option>
-        <option>Edredom</option>
-        <option>Edredom</option>
-        <option>Fronha</option>
-        <option>Fronha</option>
-        <option>Manta para sofá</option>
-        <option>Manta para sofá</option>
-        <option>Toalhas de banho</option>
-        <option>Toalhas de mão</option>
-        <option>Tapete para Banheiro</option>
-        <option>Tapete para Banheiro</option>
-        <option>Mope</option>
-        <option>Ferro de passar</option>
-        <option>Tábua de passar</option>
-        <option>Aspirador</option>
-        <option>Kit porta lavatório</option>
-        <option>Kit Churrasco</option>
-        <option>Garrafa de Café Preta</option>
-        <option>Microondas</option>
+        <option value="Cafeteira">Cafeteira</option>
+        <option value="Liquidificador">Liquidificador</option>
+        <option value="Sanduicheira">Sanduicheira</option>
+        <option value="Air fryer">Air fryer</option>
+        <option value="Bebedouro">Bebedouro</option>
+        <option value="Assadeiras">Assadeiras</option>
+        <option value="Bandeja">Bandeja</option>
+        <option value="Tijela">Tijela</option>
+        <option value="Garrafa térmica">Garrafa térmica</option>
+        <option value="Taça para sobremesa">Taça para sobremesa</option>
+        <option value="Prato para sobremesa">Prato para sobremesa</option>
+        <option value="Jogo de copo">Jogo de copo</option>
+        <option value="Jogo de prato">Jogo de prato</option>
+        <option value="Jogo de talheres">Jogo de talheres</option>
+        <option value="Jogo de panela">Jogo de panela</option>
+        <option value="Panela de pressão">Panela de pressão</option>
+        <option value="Panos de prato">Panos de prato</option>
+        <option value="Potes de vidro">Potes de vidro</option>
+        <option value="Porta mantimentos">Porta mantimentos</option>
+        <option value="Ralador">Ralador</option>
+        <option value="Afiador de facas">Afiador de facas</option>
+        <option value="Forma de pudim">Forma de pudim</option>
+        <option value="Cobre Leito 1">Cobre Leito 1</option>
+        <option value="Cobre Leito 2">Cobre Leito 2</option>
+        <option value="Lençol 1">Lençol 1</option>
+        <option value="Lençol 2">Lençol 2</option>
+        <option value="Edredom 1">Edredom 1</option>
+        <option value="Edredom 2">Edredom 2</option>
+        <option value="Fronha 1">Fronha 1</option>
+        <option value="Fronha 2">Fronha 2</option>
+        <option value="Manta para sofá 1">Manta para sofá 1</option>
+        <option value="Manta para sofá 2">Manta para sofá 2</option>
+        <option value="Toalhas de banho">Toalhas de banho</option>
+        <option value="Toalhas de mão">Toalhas de mão</option>
+        <option value="Tapete para Banheiro 1">Tapete para Banheiro 1</option>
+        <option value="Tapete para Banheiro 2">Tapete para Banheiro 2</option>
+        <option value="Mope">Mope</option>
+        <option value="Ferro de passar">Ferro de passar</option>
+        <option value="Tábua de passar">Tábua de passar</option>
+        <option value="Aspirador">Aspirador</option>
+        <option value="Kit porta lavatório">Kit porta lavatório</option>
+        <option value="Kit Churrasco">Kit Churrasco</option>
+        <option value="Garrafa de Café Preta">Garrafa de Café Preta</option>
+        <option value="Microondas">Microondas</option>
       </select>
 
       <br><br>
@@ -159,7 +159,7 @@
   </div>
 
   <script>
-    // 🔹 Use a URL do Web App que você publicou
+    // 🔹 URL do Web App
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzlu3zeYdgRiOaXvEsWrY1EJkqJ1syZgkRyC-4mpAIuTqq1T42MZsf8M_1jiuhxL8rR/exec";
 
     async function carregarPresentes() {
@@ -168,7 +168,7 @@
         const response = await fetch(webAppUrl);
         const escolhidos = await response.json();
         for (let i = select.options.length - 1; i >= 0; i--) {
-          if (escolhidos.includes(select.options[i].text)) {
+          if (escolhidos.includes(select.options[i].value)) {
             select.remove(i);
           }
         }
@@ -180,30 +180,35 @@
     window.addEventListener("DOMContentLoaded", carregarPresentes);
 
     const form = document.getElementById('formPresente');
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', async function(event) {
       event.preventDefault();
 
-      fetch(webAppUrl, {
-        method: "POST",
-        body: new FormData(form)
-      })
-      .then(res => res.json())
-      .then(data => {
+      const button = form.querySelector("button[type='submit']");
+      button.disabled = true; // evita clique duplo
+
+      try {
+        const response = await fetch(webAppUrl, {
+          method: "POST",
+          body: new FormData(form)
+        });
+        const data = await response.json();
         if (data.status === "ok") {
           window.location.href = 'confirmado.html';
         } else {
           alert("Erro ao confirmar, tente novamente.");
         }
-      })
-      .catch(err => {
+      } catch (err) {
         console.error("Erro ao enviar:", err);
         alert("Erro ao confirmar, tente novamente.");
-      });
+      } finally {
+        button.disabled = false;
+      }
     });
   </script>
 
 </body>
 </html>
+
 
 
 
